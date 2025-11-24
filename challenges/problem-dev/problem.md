@@ -14,9 +14,10 @@ Password length is crucial for security. However, have you actually tried cracki
 ## Details
 
 The Password Security game is running at {{link_as('/', 'here')}}.
+Here is the code {{url_for("main.py", "main.py")}}
 
 ## Hints
-What are rainbow tables?
+How to enumerate users?
 
 ## Tags
  - beginner
@@ -34,12 +35,18 @@ init: true
 
 ## Solution Overview
 
-willi@LAPTOP-T2EUIAOQ:~/ctf-problemdev/challenges$ cp -r problem-dev/ ~/cmgr/challenges/ && cmgr update && cmgr playtest picoctf/passsec
-Updated:
-    picoctf/passsec
-cmgr: [WARN:  disk quota for picoctf/passsec container 'challenge' ignored (disk quotas are not enabled)]
-challenge information available at: http://localhost:4242/
-
+||The /flag url offers a channel for enumerating username via timings attack. 
+The idea is to Input a test username, along with a giant password
+The key here is knowing that, in 'and' expression...
+```username == user and SHA256.new(data=password.encode()).hexdigest() == passHASH```
+If username is not equal to user then, the password hash function is not called. 
+When the password function is called, the giant password causes the hash function to hang. 
+This tells us that we have guessed the right username. 
+We can then use that information to submit to /forgetpass and get the password hash
+The password is really short (3 digits). 
+This allows us to either brute force the password using the hash or using a rainbow table.
+Here is the solution script {{url_for("solution.py", "solution.py")}}
+||
 ## Attributes
 - author: William Lin
 - event: RSAC picoCTF

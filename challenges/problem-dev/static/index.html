@@ -5,151 +5,48 @@
   <title>HACKER BANK – TOP SECRET ADMIN LOGIN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Consolas, "Courier New", monospace;
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Consolas,"Courier New",monospace}
+    body{
+      background:#000;color:#0aff9d;min-height:100vh;display:flex;
+      justify-content:center;align-items:center;padding:20px
     }
-
-    body {
-      background: #000;
-      color: #0aff9d;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+    .wrapper{
+      width:100%;max-width:440px;padding:30px;border-radius:12px;
+      background:rgba(0,0,0,.88);border:2px solid #0aff9d;
+      box-shadow:0 0 25px #0aff9d66,inset 0 0 20px #0aff9d33
     }
-
-    .wrapper {
-      width: 100%;
-      max-width: 420px;
-      padding: 30px;
-      border-radius: 12px;
-      background: rgba(0, 0, 0, 0.85);
-      border: 2px solid #0aff9d;
-      box-shadow: 0 0 25px #0aff9d66, inset 0 0 20px #0aff9d33;
-      position: relative;
+    h1{font-size:1.5rem;text-align:center;margin-bottom:10px;text-shadow:0 0 8px #0aff9d;letter-spacing:1px}
+    .subtitle{text-align:center;font-size:.85rem;margin-bottom:16px;color:#55ffc8}
+    .panel-label{
+      font-size:.8rem;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.1em;color:#44ffaa
     }
-
-    h1 {
-      font-size: 1.5rem;
-      text-align: center;
-      margin-bottom: 15px;
-      text-shadow: 0 0 8px #0aff9d;
-      letter-spacing: 1px;
+    input{
+      width:100%;padding:12px;border:2px solid #0aff9d;border-radius:8px;
+      background:#000;color:#0aff9d;font-size:1rem;box-shadow:inset 0 0 8px #0aff9d55;
+      outline:none;transition:.15s
     }
-
-    .subtitle {
-      text-align: center;
-      font-size: 0.85rem;
-      margin-bottom: 10px;
-      color: #55ffc8;
+    input::placeholder{color:#0aff9d88}
+    input:focus{box-shadow:0 0 12px #0aff9d,inset 0 0 12px #0aff9d;border-color:#55ffcc}
+    .btn{
+      width:100%;margin-top:16px;padding:12px;font-size:1rem;font-weight:700;border:none;border-radius:8px;
+      background:#0aff9d;color:#000;cursor:pointer;letter-spacing:.08em;transition:.15s;text-transform:uppercase
     }
-
-    .length-note {
-      text-align: center;
-      font-size: 0.8rem;
-      margin-bottom: 22px;
-      color: #0aff9d;
-      opacity: 0.85;
+    .btn:hover{background:#55ffc8;box-shadow:0 0 18px #0aff9d}
+    .btn-secondary{
+      margin-top:10px;background:transparent;color:#0aff9d;border:2px dashed #0aff9d
     }
-
-    .panel-label {
-      font-size: 0.8rem;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #44ffaa;
+    .btn-secondary:hover{background:#07110c;box-shadow:0 0 12px #0aff9d66}
+    .ascii{
+      text-align:center;font-size:.45rem;margin-bottom:12px;color:#0aff9d;opacity:.9;line-height:1.1em;
+      white-space:pre;animation:pulseGlow 2.3s ease-in-out infinite alternate
     }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #0aff9d;
-      border-radius: 8px;
-      background: #000;
-      color: #0aff9d;
-      font-size: 1rem;
-      box-shadow: inset 0 0 8px #0aff9d55;
-      outline: none;
-      transition: 0.15s;
+    @keyframes pulseGlow{
+      0%{text-shadow:0 0 4px #0aff9d,0 0 8px #0aff9d55;transform:scale(1);opacity:.85}
+      50%{text-shadow:0 0 8px #0aff9d,0 0 16px #0aff9d88,0 0 24px #0aff9d55;transform:scale(1.01);opacity:1}
+      100%{text-shadow:0 0 3px #0aff9d,0 0 6px #0aff9d44;transform:scale(.995);opacity:.8}
     }
-
-    input::placeholder {
-      color: #0aff9d88;
-    }
-
-    input:focus {
-      box-shadow: 0 0 12px #0aff9d, inset 0 0 12px #0aff9d;
-      border-color: #55ffcc;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 18px;
-      padding: 12px;
-      font-size: 1rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      background: #0aff9d;
-      color: #000;
-      cursor: pointer;
-      letter-spacing: 0.08em;
-      transition: 0.15s;
-      text-transform: uppercase;
-    }
-
-    button:hover {
-      background: #55ffc8;
-      box-shadow: 0 0 18px #0aff9d;
-    }
-
-    .ascii {
-      text-align: center;
-      font-size: 0.45rem;
-      margin-bottom: 15px;
-      color: #0aff9d;
-      opacity: 0.9;
-      line-height: 1.1em;
-      white-space: pre;
-      animation: pulseGlow 2.3s ease-in-out infinite alternate;
-    }
-
-    @keyframes pulseGlow {
-      0% {
-        text-shadow:
-          0 0 4px #0aff9d,
-          0 0 8px #0aff9d55;
-        transform: scale(1);
-        opacity: 0.85;
-      }
-      50% {
-        text-shadow:
-          0 0 8px #0aff9d,
-          0 0 16px #0aff9d88,
-          0 0 24px #0aff9d55;
-        transform: scale(1.01);
-        opacity: 1;
-      }
-      100% {
-        text-shadow:
-          0 0 3px #0aff9d,
-          0 0 6px #0aff9d44;
-        transform: scale(0.995);
-        opacity: 0.8;
-      }
-    }
-
-    .status {
-      margin-top: 10px;
-      font-size: 0.75rem;
-      text-align: center;
-      color: #55ffc8;
-      min-height: 1.2em;
-      word-break: break-all;
+    .status{
+      margin-top:12px;font-size:.8rem;text-align:center;min-height:1.4em;word-break:break-word
     }
   </style>
 </head>
@@ -188,88 +85,60 @@
 
   <h1>TOP SECRET ADMIN LOGIN</h1>
   <p class="subtitle">HACKER BANK INTERNAL SYSTEM</p>
-  <p class="length-note">Password length: <strong>exactly 5 characters</strong>.</p>
 
-  <form id="admin-login-form">
+  <form id="login-form">
+    <label class="panel-label" for="username">Admin Username</label>
+    <input id="username" type="text" placeholder="root_h4x0r" required />
+
     <label class="panel-label" for="password">Admin Password</label>
-    <input
-      id="password"
-      type="password"
-      placeholder="*****"
-      minlength="5"
-      maxlength="5"
-      pattern=".{5}"
-      required
-    />
-    <button type="submit">
-      Authorize
-    </button>
+    <input id="password" type="password" placeholder="*****" minlength="5" maxlength="5" pattern=".{5}" required />
+
+    <button class="btn" type="submit">Authorize</button>
   </form>
+
+  <button class="btn btn-secondary" id="forgot-btn" type="button">Forgot Password</button>
 
   <p class="status" id="status"></p>
 </div>
 
 <script>
-  let backendUnsaltedHash = null;
+  const form = document.getElementById("login-form");
+  const userEl = document.getElementById("username");
+  const passEl = document.getElementById("password");
+  const statusEl = document.getElementById("status");
+  const forgotBtn = document.getElementById("forgot-btn");
 
-  async function loadBackendHash() {
-    const statusEl = document.getElementById('status');
-    try {
-      const res = await fetch('/hash', {
-        method: 'GET',
-        cache: 'no-store'
-      });
+  forgotBtn.addEventListener("click", () => {
+    window.location.href = "/forgot.html";
+  });
 
-      if (!res.ok) {
-        throw new Error('Response not OK: ' + res.status);
-      }
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const username = userEl.value.trim();
+    const password = passEl.value;
 
-      const data = await res.json();
-      backendUnsaltedHash = data.UnsaltedPasswordHash;
-      statusEl.textContent = 'sha-256 hash: ' + backendUnsaltedHash;
-      statusEl.style.color = '#55ffc8';
-    } catch (err) {
-      statusEl.textContent = 'Backend error';
-      statusEl.style.color = '#ff5f5f';
+    if (password.length !== 5) {
+      statusEl.textContent = "Password must be exactly 5 characters.";
+      statusEl.style.color = "#ff5f5f";
+      return;
     }
-  }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    loadBackendHash();
+    try {
+      const url = `/flag?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+      const res = await fetch(url, { method: "GET", cache: "no-store" });
 
-    const form = document.getElementById('admin-login-form');
-    const passwordInput = document.getElementById('password');
-    const statusEl = document.getElementById('status');
+      const text = (await res.text()).trim();
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const password = passwordInput.value;
-
-      if (password.length !== 5) {
-        statusEl.textContent = 'Password must be exactly 5 characters.';
-        statusEl.style.color = '#ff5f5f';
-        return;
+      if (res.ok && text && text !== "null") {
+        window.location.href = url;
+      } else {
+        statusEl.textContent = "Access denied. (wrong username or password)";
+        statusEl.style.color = "#ff5f5f";
       }
-
-      try {
-        const res = await fetch('/flag?password=' + encodeURIComponent(password), {
-          method: 'GET',
-          cache: 'no-store'
-        });
-
-        if (res.ok) {
-          const text = await res.text();
-          statusEl.textContent = text;
-          statusEl.style.color = '#55ffc8';
-        } else {
-          statusEl.textContent = 'Wrong password.';
-          statusEl.style.color = '#ff5f5f';
-        }
-      } catch (err) {
-        statusEl.textContent = 'Network error.';
-        statusEl.style.color = '#ff5f5f';
-      }
-    });
+    } catch {
+      statusEl.textContent = "Network error.";
+      statusEl.style.color = "#ff5f5f";
+    }
   });
 </script>
 

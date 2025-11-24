@@ -19,9 +19,7 @@ if SERVER_SECRET_KEY is None:
     SERVER_SECRET_KEY=os.urandom(32)
 
 assert len(SERVER_SECRET_KEY) == 32  # Must be for AES-256
-
 signer = Signer(SERVER_SECRET_KEY) 
-
 logger = logging.getLogger("uvicorn")
 
 
@@ -29,27 +27,40 @@ logger = logging.getLogger("uvicorn")
 FLAG=""
 with open("/challenge/flag", "r") as f:
     FLAG = f.read().strip()
-
+attempts = 0
 chars = string.ascii_letters + string.digits
-HASH = SHA256.new(data=b'test.').hexdigest()
-# HASH = SHA256.new(data=''.join(random.choice(chars) for _ in range(5)).encode()).hexdigest()
-
+user = "".join(random.choice(chars) for _ in range(4))
+password = "".join(random.choice(chars) for _ in range(3))
+passHASH = SHA256.new(data=password.encode()).hexdigest()
 # --- Request Models ---
 class PasswordInput(BaseModel):
     password: str
 
-
+flagAttempts = 0
 # --- Routes ---
 @app.get("/flag")
-def flag(password: str):
-    if(SHA256.new(data=password.encode()).hexdigest() == HASH):
-        return FLAG
+def flag(username: str, password: str):
+    if(username == user and SHA256.new(data=password.encode()).hexdigest() == passHASH):
+        flagAttempts += 1
+        if flagAttempts > 1:
+            return FLAG
+        else:
+            return None
+    flagAttempts = 0
     return None
 
 
-@app.get("/hash")
-def hash(request: Request):
-    return {"UnsaltedPasswordHash": HASH}
+@app.get("/forgetpass")
+def hash(username: str):
+    global attempts
+    if(username == user):
+        attempts +=1
+    else:
+        attempts = 0
+        return {}
+    if(attempts > 10000):
+        return {"UnsaltedPasswordHash": passHASH}
+    return {}
 
 # --- Static Frontend ---
 app.mount("/", StaticFiles(directory="static", html=True), name="static")

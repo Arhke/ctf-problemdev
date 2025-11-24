@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HACKER BANK – FORGOT PASSWORD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Consolas,"Courier New",monospace}
+    body{
+      background:#000;color:#0aff9d;min-height:100vh;display:flex;
+      justify-content:center;align-items:center;padding:20px
+    }
+    .wrapper{
+      width:100%;max-width:520px;padding:30px;border-radius:12px;
+      background:rgba(0,0,0,.88);border:2px solid #0aff9d;
+      box-shadow:0 0 25px #0aff9d66,inset 0 0 20px #0aff9d33
+    }
+    h1{font-size:1.4rem;text-align:center;margin-bottom:10px;text-shadow:0 0 8px #0aff9d}
+    .subtitle{text-align:center;font-size:.85rem;margin-bottom:16px;color:#55ffc8}
+    .panel-label{
+      font-size:.8rem;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.1em;color:#44ffaa
+    }
+    input{
+      width:100%;padding:12px;border:2px solid #0aff9d;border-radius:8px;
+      background:#000;color:#0aff9d;font-size:1rem;box-shadow:inset 0 0 8px #0aff9d55;
+      outline:none;transition:.15s
+    }
+    input::placeholder{color:#0aff9d88}
+    input:focus{box-shadow:0 0 12px #0aff9d,inset 0 0 12px #0aff9d;border-color:#55ffcc}
+    .btn{
+      width:100%;margin-top:16px;padding:12px;font-size:1rem;font-weight:700;border:none;border-radius:8px;
+      background:#0aff9d;color:#000;cursor:pointer;letter-spacing:.08em;transition:.15s;text-transform:uppercase
+    }
+    .btn:hover{background:#55ffc8;box-shadow:0 0 18px #0aff9d}
+    .btn-secondary{
+      margin-top:10px;background:transparent;color:#0aff9d;border:2px dashed #0aff9d
+    }
+    .btn-secondary:hover{background:#07110c;box-shadow:0 0 12px #0aff9d66}
+    .status{
+      margin-top:12px;font-size:.85rem;min-height:3em;white-space:pre-wrap;word-break:break-word
+    }
+    .hashbox{
+      margin-top:10px;padding:10px;border:1px solid #0aff9d66;border-radius:8px;background:#050505;
+      box-shadow:inset 0 0 10px #0aff9d22;color:#d6ffe9;font-size:.9rem
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <h1>FORGOT PASSWORD</h1>
+  <p class="subtitle">HACKER BANK “SECURE” RECOVERY SERVICE</p>
+
+  <form id="forgot-form">
+    <label class="panel-label" for="username">Admin Username</label>
+    <input id="username" type="text" placeholder="tell us who you are..." required />
+    <button class="btn" type="submit">Request Reset</button>
+  </form>
+
+  <button class="btn btn-secondary" id="back-btn" type="button">Back to Login</button>
+
+  <div class="status" id="status"></div>
+  <div class="hashbox" id="hashbox" style="display:none;"></div>
+</div>
+
+<script>
+  const form = document.getElementById("forgot-form");
+  const userEl = document.getElementById("username");
+  const statusEl = document.getElementById("status");
+  const hashBox = document.getElementById("hashbox");
+  const backBtn = document.getElementById("back-btn");
+
+  let lastUsername = null;
+  let localStreak = 0;
+
+  backBtn.addEventListener("click", () => {
+    window.location.href = "/";
+  });
+
+  function tease(streak) {
+    if (streak < 3) return "Oh? You *think* that's your username? Cute. Try again.";
+    if (streak < 10) return "Still here? Admins don't forget passwords... unless they do. Keep going.";
+    if (streak < 100) return "Wow. You really want it. Fine. Keep typing.";
+    if (streak < 1000) return "At this point I'm invested. Don't stop now.";
+    if (streak < 5000) return "You know this needs 10,000 in a row, right? I'm not kidding.";
+    return "So close I can taste the terrible security policy.";
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const username = userEl.value.trim();
+
+    if (username && username === lastUsername) {
+      localStreak++;
+    } else {
+      localStreak = 1;
+      lastUsername = username;
+    }
+
+    hashBox.style.display = "none";
+    hashBox.textContent = "";
+
+    try {
+      const url = `/forgetpass?username=${encodeURIComponent(username)}`;
+      const res = await fetch(url, { method: "GET", cache: "no-store" });
+      const data = await res.json();
+
+      if (data && data.UnsaltedPasswordHash) {
+        statusEl.textContent =
+          "Alright, alright. You win.\n" +
+          "Here’s what your *comically unsafe* recovery system leaks:";
+        hashBox.textContent = "sha-256 hash: " + data.UnsaltedPasswordHash;
+        hashBox.style.display = "block";
+        return;
+      }
+
+      statusEl.textContent =
+        `Attempt ${localStreak}/10000\n` +
+        tease(localStreak);
+
+    } catch {
+      statusEl.textContent = "Backend error. Even our password recovery forgot how to work.";
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -23,7 +23,7 @@ def main():
                 flag_rand = flag_rand.group()
                 flag_rand = flag_rand[1:-1]
 
-        flag = "picoCTF{Ho5_d0_I_uS3_Ra1nB0w T2bl3s" + flag_rand + "}"
+        flag = "picoCTF{Ho5_d0_I_br3a5_pa55s" + flag_rand + "}"
         
         with open("/challenge/flag", "w") as f:
             f.write(flag)

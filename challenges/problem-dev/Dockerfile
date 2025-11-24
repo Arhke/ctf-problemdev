@@ -15,6 +15,13 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 
+
+# * Creates /challenge/artifacts.tar.gz which cmgr uses to offer artifact
+#   downloads in problem.md.
+# * Creates /challenge/metadata.json which defines the flag and potentially
+#   other metadata.
+RUN tar czvf /challenge/artifacts.tar.gz main.py 
+
 # Expose the port on which the Flask app will run
 EXPOSE 8000
 
