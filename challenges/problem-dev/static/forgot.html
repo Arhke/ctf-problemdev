@@ -99,7 +99,7 @@
 
       if (data && data.UnsaltedPasswordHash) {
         statusEl.textContent =
-          "Here’s what your *comically unsafe* recovery system leaks after resetting your password:";
+          "Assuming user exists, here’s what your *comically unsafe* recovery system leaks after resetting your password:";
         hashBox.textContent = "sha-256 hash: " + data.UnsaltedPasswordHash;
         hashBox.style.display = "block";
         return;
@@ -107,7 +107,7 @@
 
 
     } catch {
-      statusEl.textContent = "Backend error. Even our password recovery forgot how to work.";
+      statusEl.textContent = "Backend error. Our password recovery forgot how to work.";
     }
   });
 </script>
