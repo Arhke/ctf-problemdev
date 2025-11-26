@@ -35,7 +35,8 @@ init: true
 
 ## Solution Overview
 
-||The /flag url offers a channel for enumerating username via timings attack. 
+||
+The /flag url offers a channel for enumerating username via timings attack. 
 The idea is to Input a test username, along with a giant password
 The key here is knowing that, in 'and' expression...
 ```username == user and SHA256.new(data=password.encode()).hexdigest() == passHASH```

@@ -10,6 +10,7 @@ RUN python3 /challenge/setup-challenge.py
 
 WORKDIR /app
 COPY ./main.py /app/main.py
+COPY ./solution.py /app/solution.py
 COPY ./static /app/static
 COPY requirements.txt .
 RUN pip install -r requirements.txt
@@ -20,8 +21,7 @@ RUN pip install -r requirements.txt
 #   downloads in problem.md.
 # * Creates /challenge/metadata.json which defines the flag and potentially
 #   other metadata.
-RUN tar czvf /challenge/artifacts.tar.gz main.py 
-RUN tar czvf /challenge/artifacts.tar.gz solution.py 
+RUN tar czvf /challenge/artifacts.tar.gz main.py solution.py 
 
 # Expose the port on which the Flask app will run
 EXPOSE 8000
