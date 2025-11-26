@@ -77,14 +77,6 @@
     window.location.href = "/";
   });
 
-  function tease(streak) {
-    if (streak < 3) return "Oh? You *think* that's your username? Cute. Try again.";
-    if (streak < 10) return "Still here? Admins don't forget passwords... unless they do. Keep going.";
-    if (streak < 100) return "Wow. You really want it. Fine. Keep typing.";
-    if (streak < 1000) return "At this point I'm invested. Don't stop now.";
-    if (streak < 5000) return "You know this needs 10,000 in a row, right? I'm not kidding.";
-    return "So close I can taste the terrible security policy.";
-  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -107,16 +99,12 @@
 
       if (data && data.UnsaltedPasswordHash) {
         statusEl.textContent =
-          "Alright, alright. You win.\n" +
-          "Here’s what your *comically unsafe* recovery system leaks:";
+          "Here’s what your *comically unsafe* recovery system leaks after resetting your password:";
         hashBox.textContent = "sha-256 hash: " + data.UnsaltedPasswordHash;
         hashBox.style.display = "block";
         return;
       }
 
-      statusEl.textContent =
-        `Attempt ${localStreak}/10000\n` +
-        tease(localStreak);
 
     } catch {
       statusEl.textContent = "Backend error. Even our password recovery forgot how to work.";

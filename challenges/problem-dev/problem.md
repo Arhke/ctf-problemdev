@@ -43,9 +43,10 @@ If username is not equal to user then, the password hash function is not called.
 When the password function is called, the giant password causes the hash function to hang. 
 This tells us that we have guessed the right username. 
 We can then use that information to submit to /forgetpass and get the password hash
-The password is really short (3 digits). 
+The password becomes really short (3 digits). 
 This allows us to either brute force the password using the hash or using a rainbow table.
 Here is the solution script {{url_for("solution.py", "solution.py")}}
+Remember to modify the BASE_IP_PORT before running solution.py
 ||
 ## Attributes
 - author: William Lin

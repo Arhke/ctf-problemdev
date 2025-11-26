@@ -117,12 +117,6 @@
     const username = userEl.value.trim();
     const password = passEl.value;
 
-    if (password.length !== 5) {
-      statusEl.textContent = "Password must be exactly 5 characters.";
-      statusEl.style.color = "#ff5f5f";
-      return;
-    }
-
     try {
       const url = `/flag?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
       const res = await fetch(url, { method: "GET", cache: "no-store" });

