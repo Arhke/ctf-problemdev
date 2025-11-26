@@ -17,7 +17,8 @@ The Password Security game is running at {{link_as('/', 'here')}}.
 Here is the code {{url_for("main.py", "main.py")}}
 
 ## Hints
-How to enumerate users?
+How could we find out the correct user first?
+
 
 ## Tags
  - beginner
@@ -34,7 +35,6 @@ init: true
 ```
 
 ## Solution Overview
-
 ||
 The /flag url offers a channel for enumerating username via timings attack. 
 The idea is to Input a test username, along with a giant password
@@ -46,9 +46,9 @@ This tells us that we have guessed the right username.
 We can then use that information to submit to /forgetpass and get the password hash
 The password becomes really short (3 digits). 
 This allows us to either brute force the password using the hash or using a rainbow table.
-Here is the solution script {{url_for("solution.py", "solution.py")}}
 Remember to modify the BASE_IP_PORT before running solution.py
 ||
+
 ## Attributes
 - author: William Lin
 - event: RSAC picoCTF
