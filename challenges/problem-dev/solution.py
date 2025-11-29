@@ -40,8 +40,8 @@ def find_username():
     maxElapsedUser = None
     session = requests.Session()
     session.get(FLAG_ENDPOINT, timeout=1) #get rid of initial overhead
-
-    for tup in itertools.product(CHARS, repeat=2): #AI assisted with how to use itertools, I didn't know how to enumerate through usernames using python
+    #AI assisted with only the line below by explaining the itertools syntax, but that's it nothing else. 
+    for tup in itertools.product(CHARS, repeat=2): 
         u = "".join(tup)
         # print("Checking Username: ", u)
         elapsed, _ = check_username(session, u)
@@ -90,5 +90,6 @@ for tup in itertools.product(CHARS, repeat=2):
         print("Result:", username, u);
         exit(0)
 print("No Results found", username);
+
 
 
