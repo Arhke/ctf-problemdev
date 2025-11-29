@@ -10,3 +10,5 @@ enabling a timing attack based on hash time. The game works as follows:
   5. The user then can use the username to obtain the hash of a simpler password from /forgetpass
   6. The user can then bruteforce or rainbow table the password to obtain the username and password.
   7. Then the user should submit the username and password to /flag
+
+Index.html and forgotpass.html are prettified with AI
