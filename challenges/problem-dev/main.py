@@ -36,7 +36,7 @@ chars = string.ascii_letters + string.digits
 user = "".join(random.choice(chars) for _ in range(2))
 password = "".join(random.choice(chars) for _ in range(25))
 passHASH = getHash(password)
-print(user, password, "====================================")
+
 # --- Request Models ---
 
 
@@ -44,7 +44,6 @@ flagAttempts = 0
 # --- Routes ---
 @app.get("/flag")
 def flag(username: str, password: str):
-    print(username[0:5], password[0:5])
 
     if(username == user and getHash(password) == passHASH):
         return FLAG
